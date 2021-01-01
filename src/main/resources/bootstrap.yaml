@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: integratorengine
+  profiles:
+    active: dev
+  task:
+    scheduling:
+      pool:
+        size: 10
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        sources:
+          - namespace: default
+            name: ${spring.application.name}
+      reload:
+        enabled: true
+        mode: event
+        strategy: REFRESH
+      
+
+management:
+  port: 8081
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true

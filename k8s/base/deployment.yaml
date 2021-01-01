@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: integratorengine
+spec:
+  selector:
+    matchLabels:
+      app: integratorengine
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: integratorengine
+    spec:
+      containers:
+      - name: integratorengine
+        image: yogeshwarmahalle/integratorengine
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "300m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: global-integration
+          mountPath: "/integrationroutes"
+        - name: acclookup-integration
+          mountPath: "/integrationroutes/acclookup"
+        - name: flexrate-integration
+          mountPath: "/integrationroutes/flexrate"
+        - name: balinq-integration
+          mountPath: "/integrationroutes/balinq"
+        - name: accpost-integration
+          mountPath: "/integrationroutes/accpost"
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: global-integration
+          configMap:
+            name: configmap-global-integration
+        - name: acclookup-integration
+          configMap:
+            name: configmap-acclookup-integration    
+        - name: flexrate-integration
+          configMap:
+            name: configmap-flexrate-integration
+        - name: balinq-integration
+          configMap:
+            name: configmap-balinq-integration
+        - name : accpost-integration
+          configMap:
+            name: configmap-accpost-integration
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: integratorengine-service
+spec:
+  type: ClusterIP
+  selector:
+    app: integratorengine
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

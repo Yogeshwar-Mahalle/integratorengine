@@ -1,0 +1,7 @@
+kind: Kustomization
+bases:
+- ../../base
+namePrefix: prod-
+
+patchesStrategicMerge:
+- env-customisation.yaml

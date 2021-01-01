@@ -1,0 +1,21 @@
+#!/bin/sh
+###########################################################################
+# Author : Yogeshwar Mahalle
+# Creation Date : 28-Dec-2020
+# Description : The script will build the code and docker image.
+#               The image will be deployed to the Kubernetes cluster.
+###########################################################################
+
+### build the repository
+./mvnw clean install
+
+#Create Configmap for apache camel routers in xml or groovy format
+kubectl create configmap configmap-application-properties --from-file=src/main/resources/application.properties --dry-run=client -oyaml > k8s/base/configmap-application-properties.yaml
+kubectl create configmap configmap-global-integration --from-file=integrationroutes --dry-run=client -oyaml > k8s/base/configmap-global-integration.yaml
+kubectl create configmap configmap-acclookup-integration --from-file=integrationroutes/acclookup --dry-run=client -oyaml > k8s/base/configmap-acclookup-integration.yaml
+kubectl create configmap configmap-flexrate-integration --from-file=integrationroutes/flexrate --dry-run=client -oyaml > k8s/base/configmap-flexrate-integration.yaml
+kubectl create configmap configmap-balinq-integration --from-file=integrationroutes/balinq --dry-run=client -oyaml > k8s/base/configmap-balinq-integration.yaml
+kubectl create configmap configmap-accpost-integration --from-file=integrationroutes/accpost --dry-run=client -oyaml > k8s/base/configmap-accpost-integration.yaml
+
+#skaffold run
+skaffold dev

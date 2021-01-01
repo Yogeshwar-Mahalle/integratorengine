@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: integratorengine
+spec:
+  selector:
+    matchLabels:
+      app: integratorengine
+  template:
+    spec:
+      containers:
+        - name: integratorengine
+          env:
+            - name: integratorengine.feed
+              value: "file:/integrationroutes"

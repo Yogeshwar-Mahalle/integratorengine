@@ -1,0 +1,46 @@
+apiVersion: v1
+data:
+  flexrateProcessor.groovy: |+
+    import org.apache.camel.Exchange;
+    import org.apache.camel.Processor;
+
+
+    public class flexrateProcessor implements Processor {
+
+        public void process(Exchange exchange) throws Exception {
+
+            println "*********************************************************"
+            println "******** I am from flexrateProcessor version-1 **********"
+            println "**********************************************************"
+
+            String contentType = exchange.getIn().getHeader(Exchange.CONTENT_TYPE, String.class);
+            String path = exchange.getIn().getHeader(Exchange.HTTP_URI, String.class);
+            //path = path.substring(path.lastIndexOf("/"));
+
+            exchange.getOut().setHeader(Exchange.CONTENT_TYPE, contentType + "; charset=UTF-8");
+            exchange.getOut().setHeader("PATH", path);
+            exchange.getOut().setBody("Response from FlexRate.");
+        }
+    }
+
+  flexrateRouter.groovy: |
+    import org.apache.camel.*
+    import org.apache.camel.impl.*
+    import org.apache.camel.builder.*
+
+
+    public class flexrateRouter extends RouteBuilder {
+
+        def void configure() {
+
+            from("direct://flexrate-spotrate").routeId("GlobalGroovyRouter-flexrate-spotrate")
+                .log(LoggingLevel.INFO, "Request received in Flexrate : #{body}")
+                .process("flexrateProcessor")
+                //.transform().constant("Response from FlexRate")
+
+        }
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: configmap-flexrate-integration

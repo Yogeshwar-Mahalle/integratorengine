@@ -1,0 +1,7 @@
+kind: Kustomization
+bases:
+- ../../base
+namePrefix: oat-
+
+patchesStrategicMerge:
+- env-customisation.yaml

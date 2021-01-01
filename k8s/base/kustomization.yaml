@@ -1,0 +1,22 @@
+kind: Kustomization
+namespace: default
+namePrefix: ""
+nameSuffix: ""
+commonLabels:
+  app: integratorengine
+
+resources:
+- serviceaccount.yaml
+- role.yaml
+- rolebinding.yaml
+- configmap-application-properties.yaml
+- deployment.yaml
+- configmap-global-integration.yaml
+- configmap-acclookup-integration.yaml
+- configmap-flexrate-integration.yaml
+- configmap-balinq-integration.yaml
+- configmap-accpost-integration.yaml
+
+patchesStrategicMerge:
+- env-customisation.yaml
+    
