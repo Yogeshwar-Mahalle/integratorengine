@@ -18,7 +18,7 @@ public class GlobalProcessor implements Processor {
         //assertEquals(exchange.getProperty(Exchange.CHARSET_NAME), "Get a wrong charset naem from the exchange property", "UTF-8");
         exchange.getOut().setHeader(Exchange.CONTENT_TYPE, contentType + "; charset=UTF-8");
         exchange.getOut().setHeader("PATH", path);
-        exchange.getOut().setBody("Response from GlobalProcessor. ${exchange.getIn().getBody().getAt('text')}");
+        exchange.getOut().setBody("Response from GlobalProcessor.  ${exchange.getIn().getBody().getAt('text')}");
 
     }
 }
