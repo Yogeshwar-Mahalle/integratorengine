@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
   application.properties: |
+    server.shutdown.grace-period=60s
     server.port=8080
     #spring.security.user.name=fusion-pil
     #spring.security.user.password=fusion-pil@dev
@@ -18,8 +19,6 @@ data:
     # scan in the com/foo/routes classpath
     #camel.springboot.xml-rests = classpath:camel-rests/*.xml
     #camel.springboot.xml-route-templates = classpath:camel-templates/*.xml
-
-    #body = "Hi Yogeshwar!"
 
     #camel.route-template[0].template-id=mytemplate
     #camel.route-template[0].name=first

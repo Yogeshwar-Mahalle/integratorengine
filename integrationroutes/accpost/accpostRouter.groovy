@@ -7,7 +7,7 @@ public class accpostRouter extends RouteBuilder {
 
     def void configure() {
 
-        from("direct://accpost-pnp").routeId("GlobalGroovyRouter-accpost-pnp")
+        from("direct://accpost-pnp").routeId("accpostRouter-accpost-pnp")
             .log(LoggingLevel.INFO, "Request received in Account Posting : #{body}")
             .process("accpostProcessor")
             //.transform().constant("Response from Account Posting")

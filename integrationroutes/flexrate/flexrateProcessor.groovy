@@ -8,7 +8,7 @@ public class flexrateProcessor implements Processor {
 
         println "*********************************************************"
         println "******** I am from flexrateProcessor version-1 **********"
-        println "**********************************************************"
+        println "*********************************************************"
 
         String contentType = exchange.getIn().getHeader(Exchange.CONTENT_TYPE, String.class);
         String path = exchange.getIn().getHeader(Exchange.HTTP_URI, String.class);

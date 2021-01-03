@@ -21,7 +21,7 @@ data:
             //assertEquals(exchange.getProperty(Exchange.CHARSET_NAME), "Get a wrong charset naem from the exchange property", "UTF-8");
             exchange.getOut().setHeader(Exchange.CONTENT_TYPE, contentType + "; charset=UTF-8");
             exchange.getOut().setHeader("PATH", path);
-            exchange.getOut().setBody("Response from GlobalProcessor. ${exchange.getIn().getBody().getAt('text')}");
+            exchange.getOut().setBody("Response from GlobalProcessor.  ${exchange.getIn().getBody().getAt('text')}");
 
         }
     }
@@ -46,24 +46,6 @@ data:
 
         }
     }
-  GlobalRouter.xml: |
-    <routes id="GlobalXMLRouter" xmlns="http://camel.apache.org/schema/spring">
-
-      <route id="GlobalXMLRouter-hello">
-        <from uri="direct:xmlhello"/>
-        <log message="Got ${body}"/>
-        <transform>
-          <constant>Hello World</constant>
-        </transform>
-      </route>
-      <route id="GlobalXMLRouter-bye">
-        <from uri="direct:xmlbye"/>
-        <transform>
-          <constant>Bye World</constant>
-        </transform>
-      </route>
-
-    </routes>
 kind: ConfigMap
 metadata:
   creationTimestamp: null

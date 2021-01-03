@@ -11,7 +11,7 @@ data:
 
             println "*********************************************************"
             println "******** I am from flexrateProcessor version-1 **********"
-            println "**********************************************************"
+            println "*********************************************************"
 
             String contentType = exchange.getIn().getHeader(Exchange.CONTENT_TYPE, String.class);
             String path = exchange.getIn().getHeader(Exchange.HTTP_URI, String.class);
@@ -23,23 +23,47 @@ data:
         }
     }
 
-  flexrateRouter.groovy: |
-    import org.apache.camel.*
-    import org.apache.camel.impl.*
-    import org.apache.camel.builder.*
-
-
-    public class flexrateRouter extends RouteBuilder {
-
-        def void configure() {
-
-            from("direct://flexrate-spotrate").routeId("GlobalGroovyRouter-flexrate-spotrate")
-                .log(LoggingLevel.INFO, "Request received in Flexrate : #{body}")
-                .process("flexrateProcessor")
-                //.transform().constant("Response from FlexRate")
-
-        }
-    }
+  flexrateRouter.groovy: "import org.apache.camel.*\nimport org.apache.camel.impl.*\nimport
+    org.apache.camel.builder.*\nimport javax.xml.bind.*\nimport java.util.*\nimport
+    org.apache.camel.component.jackson.*\nimport org.apache.camel.converter.jaxb.*\nimport
+    org.apache.camel.model.dataformat.*\nimport javax.xml.bind.annotation.*\n\n\npublic
+    class flexrateRouter extends RouteBuilder {\n\n    def void configure() {\n\n\n
+    \       from(\"direct://flexrate-spotrate\").routeId(\"flexrateRouter-flexrate-spotrate\")\n
+    \           .log(LoggingLevel.INFO, \"Request received in Flexrate : ${body()}\")\n
+    \           .process(\"flexrateProcessor\")\n            //.transform().constant(\"Response
+    from FlexRate\")\n\n\n        // XML Data Format\n        JaxbDataFormat xmlDataFormat
+    = new JaxbDataFormat()\n        JAXBContext con = JAXBContext.newInstance(Employee.class)\n
+    \       xmlDataFormat.setContext(con)\n\n        // JSON Data Format\n        JacksonDataFormat
+    jsonDataFormat = new JacksonDataFormat(Employee.class)\n        //XmlJsonDataFormat
+    xmlJsonFormat = new XmlJsonDataFormat();\n        \n        from(\"direct://flexrate-dealrate\").routeId(\"flexrateRouter-flexrate-dealrate\")\n
+    \           .log(LoggingLevel.INFO, \"Request received in Flexrate : ${body()}\")\n
+    \           .doTry().unmarshal(xmlDataFormat)\n            .log(LoggingLevel.INFO,
+    \"After unmarshalling XML to Java in Flexrate : ${body()}\")\n            .process(new
+    Processor() {\n                public void process(Exchange exchange) throws Exception
+    {\n                    Employee employee = exchange.getIn().getBody(Employee.class)\n
+    \                   employee.setEmpName(\"Yogeshwar Mahalle\")\n                    exchange.getIn().setBody(employee)\n
+    \               }\n            })\n            .log(LoggingLevel.INFO, \"After
+    Processing in Flexrate : ${body()}\")\n            .marshal(jsonDataFormat)\n
+    \           .log(LoggingLevel.INFO, \"After Java to Json Marshling in Flexrate
+    : ${body()}\")\n            .unmarshal(jsonDataFormat)\n            .log(LoggingLevel.INFO,
+    \"After Json to Java Unmarshling in Flexrate : ${body()}\")\n            //.marshal(xmlJsonFormat)\n
+    \           .marshal(xmlDataFormat)\n            .log(LoggingLevel.INFO, \"After
+    Java to XML Marshling in Flexrate : ${body()}\")\n            .setBody(xpath(\"//employee/empName/text()\",
+    String.class))\n            .log(LoggingLevel.INFO, \"After XPATH in Flexrate
+    : ${body()}\")\n            .bean(ByeMessage.class, \"doSomething\")\n            .log(LoggingLevel.INFO,
+    \"After Bean method call in Flexrate : ${body()}\")\n            .to(\"mock:flexrateapi\")\n
+    \           .doCatch(Exception.class)\n            .process( new Processor() {\n
+    \               public void process(Exchange exchange) throws Exception {\n                    Exception
+    cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class)\n                    println
+    cause\n                }\n            }) \n\n    }\n}\n\npublic class ByeMessage
+    {\n     public void doSomething(Exchange exchange) {\n         String str = \"Bye
+    \" + exchange.getIn().getBody()\n         exchange.getIn().setBody(str)\n    }\n}\n\n@XmlRootElement(name
+    = \"employee\")\n@XmlAccessorType(XmlAccessType.FIELD)\npublic class Employee
+    {\n\n    private String empName\n    private int empId\n\n    public String getEmpName()
+    {\n        return empName\n    }\n\n    public void setEmpName(String empName)
+    {\n        this.empName = empName\n    }\n\n    public int getEmpId() {\n        return
+    empId\n    }\n\n    public void setEmpId(int empId) {\n        this.empId = empId\n
+    \   }\n}\n"
 kind: ConfigMap
 metadata:
   creationTimestamp: null

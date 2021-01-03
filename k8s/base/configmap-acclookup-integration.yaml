@@ -11,7 +11,7 @@ data:
 
             println "**********************************************************"
             println "******** I am from acclookupProcessor version-1 **********"
-            println "***********************************************************"
+            println "**********************************************************"
 
             String contentType = exchange.getIn().getHeader(Exchange.CONTENT_TYPE, String.class);
             String path = exchange.getIn().getHeader(Exchange.HTTP_URI, String.class);
@@ -33,7 +33,7 @@ data:
 
         def void configure() {
 
-            from("direct://acclookup-check").routeId("GlobalGroovyRouter-acclookup-check")
+            from("direct://acclookup-check").routeId("acclookupRouter-acclookup-check")
                 .log(LoggingLevel.INFO, "Request received in Account Lookup : #{body}")
                 .process("acclookupProcessor")
                 //.transform().constant("Response from Account Lookup")

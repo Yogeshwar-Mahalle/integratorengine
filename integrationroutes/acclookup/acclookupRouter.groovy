@@ -7,7 +7,7 @@ public class acclookupRouter extends RouteBuilder {
 
     def void configure() {
 
-        from("direct://acclookup-check").routeId("GlobalGroovyRouter-acclookup-check")
+        from("direct://acclookup-check").routeId("acclookupRouter-acclookup-check")
             .log(LoggingLevel.INFO, "Request received in Account Lookup : #{body}")
             .process("acclookupProcessor")
             //.transform().constant("Response from Account Lookup")

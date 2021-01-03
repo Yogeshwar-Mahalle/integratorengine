@@ -2,8 +2,6 @@ package com.hsbc.gps.integrator.controller;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +20,12 @@ public class RestApiIntegratorEngineController {
     @Autowired
     ProducerTemplate camelConnector;
     
-    @PostMapping("/{target-sys}/{request-type}")
+    @PostMapping(value="/{target-sys}/{request-type}" )
     @ResponseBody
     public Object forwardToCamelRouter( @PathVariable("target-sys") String targetSys, 
                                         @PathVariable("request-type") String requesType,
                                         @RequestHeader Map<String, Object> headers,
-                                        @RequestBody JsonNode payload ) {
+                                        @RequestBody String payload ) {
 
         System.out.println( "============================================================");
         System.out.println( "Request received : "); 
