@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.swagger;
+package com.ybm.integrator.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

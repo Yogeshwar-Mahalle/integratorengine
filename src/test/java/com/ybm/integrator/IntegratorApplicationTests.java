@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator;
+package com.ybm.integrator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

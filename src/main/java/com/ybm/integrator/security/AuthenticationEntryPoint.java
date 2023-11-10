@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.security;
+package com.ybm.integrator.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;

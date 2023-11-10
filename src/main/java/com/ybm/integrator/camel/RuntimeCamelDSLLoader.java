@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.camel;
+package com.ybm.integrator.camel;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.PostConstruct;
 
-import com.hsbc.gps.integrator.IntegratorEngineApplication;
+import com.ybm.integrator.IntegratorEngineApplication;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;

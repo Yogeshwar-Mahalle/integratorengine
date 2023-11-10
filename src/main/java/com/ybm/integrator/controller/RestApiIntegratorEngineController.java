@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.controller;
+package com.ybm.integrator.controller;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.camel;
+package com.ybm.integrator.camel;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;

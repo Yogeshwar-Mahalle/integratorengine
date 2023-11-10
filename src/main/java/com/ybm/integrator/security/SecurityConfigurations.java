@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.security;
+package com.ybm.integrator.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator;
+package com.ybm.integrator;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

@@ -1,4 +1,4 @@
-package com.hsbc.gps.integrator.camel;
+package com.ybm.integrator.camel;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -36,7 +36,7 @@ public class RuntimeGroovyDSLCompiler extends RuntimeCamelDSLLoader {
     public RuntimeGroovyDSLCompiler() {
         compilerConfiguration = new CompilerConfiguration();
         compilerConfiguration.setSourceEncoding(CompilerConfiguration.DEFAULT_SOURCE_ENCODING);
-        compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
+        compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK11);
         loader = new GroovyClassLoader(this.getClass().getClassLoader(), compilerConfiguration);
         // shell = new GroovyShell(loader, new Binding(), compilerConfiguration);
     }

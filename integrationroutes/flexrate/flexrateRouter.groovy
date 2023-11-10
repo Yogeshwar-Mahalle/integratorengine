@@ -30,6 +30,9 @@ public class flexrateRouter extends RouteBuilder {
         //XmlJsonDataFormat xmlJsonFormat = new XmlJsonDataFormat();
         
         from("direct://flexrate-dealrate").routeId("flexrateRouter-flexrate-dealrate")
+            .to("log:INFO?showAll=true")
+            .setProperty("headersBackup", simple("headers"))
+            //.log("Headers :  {{headersBackup}} ")
             .log(LoggingLevel.INFO, "Request received in Flexrate : ${body()}")
             .doTry().unmarshal(xmlDataFormat)
             .log(LoggingLevel.INFO, "After unmarshalling XML to Java in Flexrate : ${body()}")

@@ -12,6 +12,7 @@ class GlobalRouter extends RouteBuilder {
     def void configure() {
 
         from("direct://fusion-pil-status").routeId("GlobalGroovyRouter-fusion-pil-status")
+            //.log("Headers : ${headers}")
             .log(LoggingLevel.INFO, "Request received in GlobalRouter : ${body()}")
             .process("GlobalProcessor")
             //.transform().constant("Response from GlobalRouter")

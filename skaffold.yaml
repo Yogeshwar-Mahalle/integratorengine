@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta10
+apiVersion: skaffold/v4beta2
 kind: Config
 metadata:
   name: integratorengine
@@ -7,34 +7,33 @@ build:
   - image: yogeshwarmahalle/integratorengine
     docker:
       dockerfile: Dockerfile
-deploy:
+manifests:
   kustomize:
     paths:
     - k8s/base
-    
 profiles:
 - name: base
-  deploy:
+  manifests:
     kustomize:
       paths:
       - k8s/base
 - name: dev
-  deploy:
+  manifests:
     kustomize:
       paths:
       - k8s/overlays/dev
 - name: oat
-  deploy:
+  manifests:
     kustomize:
       paths:
       - k8s/overlays/oat
 - name: prod
-  deploy:
+  manifests:
     kustomize:
       paths:
       - k8s/overlays/prod
 - name: uat
-  deploy:
+  manifests:
     kustomize:
       paths:
       - k8s/overlays/uat

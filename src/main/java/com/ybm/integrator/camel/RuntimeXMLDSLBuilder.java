@@ -1,17 +1,17 @@
-package com.hsbc.gps.integrator.camel;
+package com.ybm.integrator.camel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*//Start: Apache Camel Version 3.5 imports
+//Start: Apache Camel Version 3.5 imports
 import org.apache.camel.model.Model;
 import org.apache.camel.ExtendedCamelContext;
 import org.apache.camel.model.RouteTemplateDefinition;
 import org.apache.camel.model.RouteTemplatesDefinition;
 import org.apache.camel.spi.XMLRoutesDefinitionLoader;
-//End: Apache Camel Version 3.5 imports */
+//End: Apache Camel Version 3.5 imports
 
 import org.apache.camel.Route;
 import org.apache.camel.model.RouteDefinition;
@@ -53,24 +53,19 @@ public class RuntimeXMLDSLBuilder extends RuntimeCamelDSLLoader {
             for (Resource resource : resourcesRoutes) {
                 List<RouteDefinition> routesDefList = new ArrayList<RouteDefinition>();
                 List<RestDefinition> restsDefList = new ArrayList<RestDefinition>();
-                //List<RouteTemplateDefinition> routesTemplateDefList = new ArrayList<RouteTemplateDefinition>(); //Apache Camel Version 3.5 code
+                List<RouteTemplateDefinition> routesTemplateDefList = new ArrayList<RouteTemplateDefinition>(); //Apache Camel Version 3.5 code
 
                 System.out.println("Route File Name : " + resource.getFilename());
                 if (resource.getFile().canRead() && resource.getFile().length() > 0) {
 
                     try {
-                        /*//Start: Apache Camel Version 3.5 code
+                        //Start: Apache Camel Version 3.5 code
                         ExtendedCamelContext extendedCamelContext = camelContext.adapt(ExtendedCamelContext.class);
                         XMLRoutesDefinitionLoader xmlLoader = extendedCamelContext.getXMLRoutesDefinitionLoader();
                         RoutesDefinition routesDef = (RoutesDefinition) xmlLoader.loadRoutesDefinition(camelContext,resource.getInputStream());
                         RestsDefinition restsDef = (RestsDefinition) xmlLoader.loadRestsDefinition(camelContext,resource.getInputStream());
                         RouteTemplatesDefinition routesTemplateDef = (RouteTemplatesDefinition) xmlLoader.loadRouteTemplatesDefinition(camelContext,resource.getInputStream());
-                        //End: Apache Camel Version 3.5 code */
-
-                        //Start:Apache Camel Version 2.25.3 code. This code needs to be removed once Version 3.5 jars are available in nexus
-                        RoutesDefinition routesDef = camelContext.loadRoutesDefinition(resource.getInputStream());
-                        RestsDefinition restsDef = camelContext.loadRestsDefinition(resource.getInputStream());
-                        //End:Apache Camel Version 2.25.3 code. This code needs to be removed once Version 3.5 jars are available in nexus
+                        //End: Apache Camel Version 3.5 code
                         
                         if (routesDef != null) {
                             routesDefList.addAll(routesDef.getRoutes());
@@ -88,11 +83,11 @@ public class RuntimeXMLDSLBuilder extends RuntimeCamelDSLLoader {
                             restsDefList.addAll(restsDef.getRests());
                         }
 
-                        /*//Apache Camel Version 3.5 code
+                        //Apache Camel Version 3.5 code
                         if (routesTemplateDef != null) {
                             routesTemplateDefList.addAll(routesTemplateDef.getRouteTemplates());
                             camelContext.getExtension(Model.class).addRouteTemplateDefinitions(routesTemplateDefList);
-                        }*/
+                        }
 
                         for (RouteDefinition routedef : routesDefList) {
                             System.out.println("XML DSL Route Definition : " + routedef.toString());
@@ -135,8 +130,7 @@ public class RuntimeXMLDSLBuilder extends RuntimeCamelDSLLoader {
 
             if (!routesDefMap.isEmpty()) {
                 // update the routes (add will remove and shutdown first)
-                //camelContext.getExtension(Model.class).addRouteDefinitions(routesDefMap.values()); //Apache Camel Version 3.5 code
-                camelContext.addRouteDefinitions(routesDefMap.values()); //Apache Camel Version 2.25.3 code. This code needs to be removed once Version 3.5 jars are available in nexus
+                camelContext.getExtension(Model.class).addRouteDefinitions(routesDefMap.values()); //Apache Camel Version 3.5 code
 
                 List<Route> routes = camelContext.getRoutes();
                 for (Route route : routes) {
@@ -146,8 +140,7 @@ public class RuntimeXMLDSLBuilder extends RuntimeCamelDSLLoader {
 
             if (!restsDefMap.isEmpty()) {
                 // update the rests (add will remove and shutdown first)
-                //camelContext.getExtension(Model.class).addRestDefinitions(restsDefMap.values(), true); //Apache Camel Version 3.5 code
-                camelContext.addRestDefinitions(restsDefMap.values()); //Apache Camel Version 2.25.3 code. This code needs to be removed once Version 3.5 jars are available in nexus
+                camelContext.getExtension(Model.class).addRestDefinitions(restsDefMap.values(), true); //Apache Camel Version 3.5 code
             }
 
         } catch (Exception exception) {
